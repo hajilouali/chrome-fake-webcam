@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fake Webcam Test</title>
+    <style>
+      body {
+        font-family: Tahoma, "Segoe UI", sans-serif;
+        background: #111;
+        color: #eee;
+        padding: 24px;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      video {
+        width: 480px;
+        max-width: 100%;
+        background: #000;
+        border-radius: 8px;
+      }
+      button {
+        padding: 10px 16px;
+        font-size: 14px;
+        margin-bottom: 14px;
+        cursor: pointer;
+      }
+      pre {
+        background: #1b1b1b;
+        padding: 10px;
+        border-radius: 6px;
+        white-space: pre-wrap;
+        font-size: 12px;
+      }
+      #extStatus {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      #extStatus.ok {
+        background: #1e4620;
+        color: #81c995;
+      }
+      #extStatus.bad {
+        background: #4a2020;
+        color: #f28b82;
+      }
+      .note {
+        font-size: 12px;
+        color: #999;
+      }
+      .lang-switch {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .lang-btn {
+        padding: 5px 12px;
+        font-size: 12px;
+        border: 1px solid #444;
+        background: #222;
+        color: #999;
+        border-radius: 6px;
+        cursor: pointer;
+        direction: ltr;
+      }
+      .lang-btn.active {
+        background: #4285f4;
+        border-color: #4285f4;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-row">
+      <h1 id="pageTitle">صفحه‌ی تست افزونه‌ی Fake Webcam</h1>
+      <div class="lang-switch">
+        <button type="button" class="lang-btn" data-lang="fa">FA</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+    <p id="pageIntro">این صفحه فقط برای تست دستی افزونه‌ست. بعد از لود کردن افزونه (unpacked) و انتخاب یک عکس/ویدیو و فعال‌کردنش برای این صفحه، دکمه زیر رو بزن.</p>
+    <p><span id="extStatus">در حال بررسی افزونه...</span></p>
+    <button id="requestBtn">درخواست دسترسی به وبکم (ویدیو+صدا)</button>
+    <button id="listBtn">لیست دستگاه‌ها (enumerateDevices)</button>
+    <p class="note" id="audioNote">این تست هم ویدیو هم صدا درخواست می‌ده و preview بی‌صدا (muted) نیست — اگه هدفون نداری و صدای اکو شنیدی، طبیعیه (صدای میکروفون واقعیه، نه باگ).</p>
+    <br />
+    <video id="preview" autoplay playsinline></video>
+    <h3 id="outputHeading">خروجی:</h3>
+    <pre id="log"></pre>
+
+    <script>
+      const T = {
+        fa: {
+          title: 'صفحه‌ی تست افزونه‌ی Fake Webcam',
+          intro: 'این صفحه فقط برای تست دستی افزونه‌ست. بعد از لود کردن افزونه (unpacked) و انتخاب یک عکس/ویدیو و فعال‌کردنش برای این صفحه، دکمه زیر رو بزن.',
+          checking: 'در حال بررسی افزونه...',
+          ok: '✓ افزونه روی این صفحه شناسایی شد (override نصب شده)',
+          bad: '✗ افزونه روی این صفحه شناسایی نشد — یعنی content script اجرا نشده',
+          requestBtn: 'درخواست دسترسی به وبکم (ویدیو+صدا)',
+          listBtn: 'لیست دستگاه‌ها (enumerateDevices)',
+          audioNote: 'این تست هم ویدیو هم صدا درخواست می‌ده و preview بی‌صدا (muted) نیست — اگه هدفون نداری و صدای اکو شنیدی، طبیعیه (صدای میکروفون واقعیه، نه باگ).',
+          outputHeading: 'خروجی:',
+          requesting: 'در حال درخواست getUserMedia...',
+          success: 'getUserMedia موفق بود.',
+          audioTrackLine: 'audio track: ',
+          audioNoLabel: '(بدون label)',
+          audioMissing: 'نیومد',
+          error: 'خطا: ',
+          timeoutHint: (s) =>
+            '⏳ بعد از ' + s + ' ثانیه هنوز جوابی نیومده. اگه افزونه فعال باشه ولی گیر کرده باشه، معمولاً یعنی content-bridge.js یا chrome.storage جواب نمی‌ده — کنسول رو (F12) هم چک کن.',
+        },
+        en: {
+          title: 'Fake Webcam Extension Test Page',
+          intro: 'This page is just for manually testing the extension. After loading it (unpacked) and picking a photo/video and enabling it for this page, click the button below.',
+          checking: 'Checking extension...',
+          ok: '✓ Extension detected on this page (override installed)',
+          bad: '✗ Extension not detected on this page — the content script did not run',
+          requestBtn: 'Request webcam access (video+audio)',
+          listBtn: 'List devices (enumerateDevices)',
+          audioNote: 'This test requests both video and audio, and the preview is not muted — if you don’t have headphones and hear an echo, that’s expected (it’s your real mic, not a bug).',
+          outputHeading: 'Output:',
+          requesting: 'Requesting getUserMedia...',
+          success: 'getUserMedia succeeded.',
+          audioTrackLine: 'audio track: ',
+          audioNoLabel: '(no label)',
+          audioMissing: 'none',
+          error: 'Error: ',
+          timeoutHint: (s) =>
+            '⏳ Still no response after ' + s + ' seconds. If the extension is enabled but stuck, content-bridge.js or chrome.storage likely isn’t responding — check the console (F12) too.',
+        },
+      };
+
+      let lang = 'fa';
+      const logEl = document.getElementById('log');
+      const extStatusEl = document.getElementById('extStatus');
+
+      function t(key) {
+        return T[lang][key];
+      }
+
+      function log(msg) {
+        logEl.textContent += msg + '\n';
+      }
+
+      function checkExtensionStatus() {
+        if (window.__fakeWebcamInjected) {
+          extStatusEl.textContent = t('ok');
+          extStatusEl.className = 'ok';
+        } else {
+          extStatusEl.textContent = t('bad');
+          extStatusEl.className = 'bad';
+        }
+      }
+
+      function applyLang() {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+        document.getElementById('pageTitle').textContent = t('title');
+        document.title = t('title');
+        document.getElementById('pageIntro').textContent = t('intro');
+        document.getElementById('requestBtn').textContent = t('requestBtn');
+        document.getElementById('listBtn').textContent = t('listBtn');
+        document.getElementById('audioNote').textContent = t('audioNote');
+        document.getElementById('outputHeading').textContent = t('outputHeading');
+        document.querySelectorAll('.lang-btn').forEach((btn) => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+        checkExtensionStatus();
+      }
+
+      document.querySelectorAll('.lang-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          lang = btn.getAttribute('data-lang');
+          applyLang();
+        });
+      });
+
+      applyLang();
+      // چون inject.js توی document_start اجرا می‌شه، معمولاً بلافاصله آماده‌ست؛
+      // ولی چند بار با تاخیر هم چک می‌کنیم تا مطمئن بشیم مسئله‌ی race نیست.
+      setTimeout(checkExtensionStatus, 300);
+      setTimeout(checkExtensionStatus, 1000);
+
+      function withTimeoutHint(promise, ms) {
+        let settled = false;
+        promise.finally(() => {
+          settled = true;
+        });
+        setTimeout(() => {
+          if (!settled) {
+            log(t('timeoutHint')(ms / 1000));
+          }
+        }, ms);
+        return promise;
+      }
+
+      document.getElementById('requestBtn').addEventListener('click', async () => {
+        logEl.textContent = '';
+        checkExtensionStatus();
+        log(t('requesting'));
+        try {
+          const stream = await withTimeoutHint(
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true }),
+            6000
+          );
+          document.getElementById('preview').srcObject = stream;
+          const track = stream.getVideoTracks()[0];
+          const audioTrack = stream.getAudioTracks()[0];
+          log(t('success'));
+          log('track.label: ' + track.label);
+          log('track.settings: ' + JSON.stringify(track.getSettings(), null, 2));
+          log(t('audioTrackLine') + (audioTrack ? audioTrack.label || t('audioNoLabel') : t('audioMissing')));
+        } catch (err) {
+          log(t('error') + err.name + ' - ' + err.message);
+        }
+      });
+
+      document.getElementById('listBtn').addEventListener('click', async () => {
+        logEl.textContent = '';
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        log(JSON.stringify(devices.map(d => ({ kind: d.kind, label: d.label, deviceId: d.deviceId })), null, 2));
+      });
+    </script>
+  </body>
+</html>

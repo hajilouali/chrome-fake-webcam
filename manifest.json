@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Fake Webcam - جایگزین وبکم",
+  "version": "1.0.0",
+  "description": "Play a video or photo instead of your real webcam on chosen sites, with zoom & pan. | به‌جای وبکم واقعی، برای سایت‌های دلخواه یک ویدیو یا عکس با قابلیت زوم و جابجایی پخش می‌کند.",
+  "permissions": ["storage", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Fake Webcam"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["inject.js"],
+      "world": "MAIN",
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["site-key.js", "i18n.js", "content-bridge.js"],
+      "world": "ISOLATED",
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

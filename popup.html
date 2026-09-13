@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fake Webcam</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <span class="dot" id="statusDot"></span>
+        <h1 data-i18n="popupHeading">جایگزین وبکم</h1>
+        <div class="lang-switch">
+          <button type="button" class="lang-btn" data-lang="fa">FA</button>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+        </div>
+      </header>
+
+      <p class="site" id="siteName">—</p>
+
+      <label class="row">
+        <span data-i18n="enabledByDefaultAll">فعال به‌صورت پیش‌فرض (همه سایت‌ها)</span>
+        <input type="checkbox" id="globalToggle" />
+      </label>
+
+      <div class="site-override">
+        <p class="hint" data-i18n="forThisSite">برای همین سایت:</p>
+        <div class="btn-group">
+          <button data-choice="on" id="btnSiteOn" data-i18n="siteOn">فعال</button>
+          <button data-choice="off" id="btnSiteOff" data-i18n="siteOff">غیرفعال</button>
+          <button data-choice="default" id="btnSiteDefault" data-i18n="siteDefault">پیش‌فرض</button>
+        </div>
+      </div>
+
+      <div class="mode-select">
+        <label class="mode-option">
+          <input type="radio" name="mode" value="image" id="modeImage" />
+          <span data-i18n="modeImage">عکس</span>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="mode" value="video" id="modeVideo" />
+          <span data-i18n="modeVideo">ویدیو</span>
+        </label>
+      </div>
+
+      <div class="file-box">
+        <div class="file-box-head">
+          <p class="file-title" data-i18n="videoFileTitleShort">فایل ویدیو (برای حالت دوربین)</p>
+          <button id="playPauseBtn" class="mini" disabled data-i18n="pause">⏸ توقف</button>
+        </div>
+        <input type="file" id="videoInput" accept="video/*" />
+        <p class="file-info" id="videoInfo" data-i18n="fileNotSelected">فایلی انتخاب نشده</p>
+      </div>
+
+      <div class="file-box">
+        <p class="file-title" data-i18n="imageFileTitle">فایل عکس</p>
+        <input type="file" id="imageInput" accept="image/*" />
+        <p class="file-info" id="imageInfo" data-i18n="fileNotSelected">فایلی انتخاب نشده</p>
+      </div>
+
+      <p class="save-status" id="saveStatus"></p>
+
+      <button id="openOptions" class="primary" data-i18n="openOptions">زوم / جابجایی تصویر</button>
+    </div>
+    <script src="i18n.js"></script>
+    <script src="media-store.js"></script>
+    <script src="site-key.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

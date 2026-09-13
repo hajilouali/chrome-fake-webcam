@@ -1,0 +1,227 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #17181a;
+  color: #e8eaed;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  padding: 5px 12px;
+  font-size: 12px;
+  border: 1px solid #45474c;
+  background: #2b2d31;
+  color: #9aa0a6;
+  border-radius: 6px;
+  cursor: pointer;
+  direction: ltr;
+}
+
+.lang-btn.active {
+  background: #4285f4;
+  border-color: #4285f4;
+  color: #fff;
+}
+
+h2 {
+  font-size: 15px;
+  margin: 0 0 14px;
+}
+
+h3 {
+  font-size: 13px;
+  margin: 18px 0 4px;
+  color: #c2c4c7;
+}
+
+.card {
+  background: #202124;
+  border: 1px solid #33353a;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #9aa0a6;
+  margin: 0 0 12px;
+}
+
+.mode-select {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mode-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.file-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.file-box {
+  flex: 1;
+  min-width: 220px;
+  background: #26282c;
+  border: 1px solid #3a3c41;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.file-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.file-info {
+  font-size: 12px;
+  color: #9aa0a6;
+  margin: 8px 0;
+  word-break: break-all;
+}
+
+input[type="file"] {
+  font-size: 12px;
+  color: #c2c4c7;
+  max-width: 100%;
+}
+
+.preview-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+#previewCanvas {
+  background: #000;
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+#previewCanvas:active {
+  cursor: grabbing;
+}
+
+.zoom-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.zoom-row input[type="range"] {
+  flex: 1;
+}
+
+#zoomValue {
+  min-width: 42px;
+  text-align: left;
+  direction: ltr;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 8px 0;
+  margin-bottom: 6px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid #45474c;
+  background: #2b2d31;
+  color: #e8eaed;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+button.secondary:hover {
+  background: #35373c;
+}
+
+button.danger {
+  background: #3a2426;
+  border-color: #5c2b2e;
+  color: #f28b82;
+}
+
+button.danger.small {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+button.danger:hover {
+  background: #4a2c2f;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.site-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.site-table th,
+.site-table td {
+  text-align: right;
+  padding: 6px 4px;
+  border-bottom: 1px solid #33353a;
+}
+
+.save-status {
+  font-size: 12px;
+  color: #81c995;
+  height: 16px;
+  text-align: center;
+}

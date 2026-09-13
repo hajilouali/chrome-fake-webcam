@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fake Webcam Settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="page-head">
+        <h1 data-i18n="optionsTitle">تنظیمات جایگزین وبکم</h1>
+        <div class="lang-switch">
+          <button type="button" class="lang-btn" data-lang="fa">FA</button>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2 data-i18n="step1Title">۱. انتخاب فایل</h2>
+        <div class="mode-select">
+          <label class="mode-option">
+            <input type="radio" name="mode" value="image" id="modeImage" />
+            <span data-i18n="modeImage">عکس</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="video" id="modeVideo" />
+            <span data-i18n="modeVideo">ویدیو</span>
+          </label>
+        </div>
+
+        <div class="file-row">
+          <div class="file-box" id="imageBox">
+            <p class="file-title" data-i18n="imageFileTitle">فایل عکس</p>
+            <input type="file" id="imageInput" accept="image/*" />
+            <p class="file-info" id="imageInfo" data-i18n="fileNotSelected">فایلی انتخاب نشده</p>
+            <button class="danger small" id="removeImage" data-i18n="removePhoto">حذف عکس</button>
+          </div>
+          <div class="file-box" id="videoBox">
+            <p class="file-title" data-i18n="videoFileTitle">فایل ویدیو</p>
+            <input type="file" id="videoInput" accept="video/*" />
+            <p class="file-info" id="videoInfo" data-i18n="fileNotSelected">فایلی انتخاب نشده</p>
+            <button class="danger small" id="removeVideo" data-i18n="removeVideo">حذف ویدیو</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="step2Title">۲. پیش‌نمایش، زوم و جابجایی</h2>
+        <p class="hint" data-i18n="dragHint">برای جابجایی تصویر، روی پیش‌نمایش کلیک نگه‌دار و بکش. اسلایدر زیر برای زوم است.</p>
+        <div class="preview-wrap">
+          <canvas id="previewCanvas" width="480" height="270"></canvas>
+        </div>
+        <div class="zoom-row">
+          <span data-i18n="zoomLabel">زوم</span>
+          <input type="range" id="zoomRange" min="1" max="6" step="0.05" value="1" />
+          <span id="zoomValue">1.0x</span>
+        </div>
+        <button class="secondary" id="resetView" data-i18n="resetView">بازنشانی زوم/جابجایی</button>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="step3Title">۳. فعال‌سازی</h2>
+        <label class="row">
+          <span data-i18n="enabledByDefaultAllSites">فعال به‌صورت پیش‌فرض برای همه‌ی سایت‌ها</span>
+          <input type="checkbox" id="globalToggle" />
+        </label>
+
+        <h3 data-i18n="siteExceptions">استثناهای سایت</h3>
+        <p class="hint" data-i18n="siteExceptionsHint">سایت‌هایی که وضعیت متفاوتی از حالت پیش‌فرض دارند.</p>
+        <table class="site-table" id="siteTable">
+          <thead>
+            <tr>
+              <th data-i18n="tableSite">سایت</th>
+              <th data-i18n="tableStatus">وضعیت</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="siteTableBody"></tbody>
+        </table>
+        <p class="hint" id="noOverrides" data-i18n="noOverrides">در حال حاضر استثنایی ثبت نشده. از پاپ‌آپ افزونه روی هر سایت می‌توانید وضعیت آن را تغییر دهید.</p>
+      </section>
+
+      <p class="save-status" id="saveStatus"></p>
+    </div>
+    <script src="i18n.js"></script>
+    <script src="media-store.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>
