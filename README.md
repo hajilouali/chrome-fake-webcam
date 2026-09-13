@@ -4,6 +4,8 @@ A Chrome extension that plays a pre-recorded video or a static photo instead of 
 
 🇮🇷 در همین مخزن، [این فایل به فارسی](README.fa.md) هم موجود است.
 
+> **Disclaimer:** This project is provided for **educational and testing purposes only**. You are solely responsible for how you use it, including compliance with the terms of service, laws, and regulations of any site or context where you use it. The author accepts no liability for misuse or unauthorized use.
+
 ## Why
 
 Some sites ask for camera access just to record a short video or grab a still photo (ID verification, "liveness" checks, avatar capture, etc.). This extension lets you feed them a video or photo of your choosing instead of your real camera — per site, with full control over framing.
